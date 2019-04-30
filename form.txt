@@ -1,5 +1,5 @@
 <form method="POST" id="index_form" class="appointment-form">
-                    
+                     <span id="error_message" style="color:red;"></span>
                         <div class="row">
                             <div class="col-md-6">   
                                 <input type="text" id="name" placeholder="Your Name*" value="" name="name">
