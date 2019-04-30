@@ -1,0 +1,139 @@
+1st method:
+
+<script>
+  jQuery(document).ready(function(){
+	jQuery("#index_form").submit(function(){
+	var name = $("#name").val();
+	var mobile = $("#mobile").val();
+	var email = $("#email").val();
+	var message = $("#message").val();
+	var city = $("#city").val();
+	var name_regex = /^[a-zA-Z ]*$/;
+	
+	// Returns successful data submission message when the entered information is stored in database.
+	var dataString = 'name='+ name + '&email='+ email + '&mobile='+ mobile + '&city=' + city + '&message='+ message;
+	
+	/* validations */
+	if(name=='')
+	{
+		//alert("Name is required.");
+		jQuery('#error_message').html("Please enter name.");
+		jQuery("#name").focus();
+	}
+	else if(!name.match(name_regex)){
+		//alert("Enter Characters Only!");
+		jQuery('#error_message').html("Please enter valid name!");
+		jQuery("#name").focus();
+	}
+	else if(mobile==''){
+		//alert("Phone is required.");
+		jQuery('#error_message').html("Please enter mobile.");
+		jQuery("#mobile").focus();
+	}
+	else if (isNaN(mobile)){
+		//alert("Enter Numeric value only!");
+		jQuery('#error_message').html("Mobile should be in numeric only!");
+		jQuery("#mobile").focus();
+	}
+	else if (mobile.length!=10){
+		//alert("Only 10 digits allowed!");
+		jQuery('#error_message').html("Please enter 10 digits mobile!");
+		jQuery("#mobile").focus();
+	}
+	else if(email==''){
+		//alert("Email is required.");
+		jQuery('#error_message').html("Please enter Email.");
+		jQuery("#email").focus();
+	}
+	else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+		//alert("Invalid Email address!");
+		jQuery('#error_message').html("Please enter valid Email address!");
+		jQuery("#email").focus();
+	}
+	else if (city==''){
+	    jQuery('#error_message').html("Please enter city.");
+		jQuery("#city").focus();
+	}
+	else if(message==''){
+		//alert("Message is required.");
+		jQuery('#error_message').html("Please enter Message.");
+		jQuery("#message").focus();
+	}
+	else
+	{
+		jQuery('#error_message').html("");
+		jQuery('#submit').attr('disabled','disabled');
+		jQuery('#submit').html('Please Wait...');
+		// AJAX Code To Submit Form.
+		$.ajax({
+			type: "POST",
+			url: "submit_form.php",
+			data: dataString,
+			cache: false,
+			success: function(result){
+				//alert(result);
+				if (result=="Mail Sent!"){
+				window.location.href="thankyou.php";
+				}
+				else {
+					alert("Oops! Somthing wrong. Your query is not submitted.");
+					jQuery('#submit').removeAttr("disabled");
+					jQuery('#submit').html('Submit Now');
+				}
+			}
+		});
+	}
+	return false;
+	});
+});
+</script>
+
+
+2nd method:
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#login-form").click(function(c){
+		c.preventDefault();
+		
+		$(".user-error").html("");
+		$(".email-error").html("");
+		$(".phone-error").html("");
+		$(".city-error").html("");
+		$(".message-error").html("");
+		$(".success").html("");
+		var username=$("#username").val();
+		var city=$("#city").val();
+		var message=$("#message").val();
+		var email=$("#email").val();
+		var phone=$("#phone").val();
+		query_string="action=login&username="+username+"&city="+city+"&message="+message+"&email="+email+"&phone="+phone;
+			$.ajax({
+				url:"/ajax-contact.php",
+				data:query_string,
+				dataType:"json",
+				type:"POST",cache:!1,
+				success:function(d){
+					if(d.status=="success"){
+						window.location="http://www.panditsriramguruji.com/thankyou.html";
+					}else{
+						if(d.status=="error"){
+							if(d.result.invalid_user&&d.result.invalid_user!=""){
+							$(".user-error").append("<p style='color:red;'>"+d.result.invalid_user+"</p>")
+							}if(d.result.invalid_city&&d.result.invalid_city!=""){
+							$(".city-error").append("<p style='color:red;'>"+d.result.invalid_city+"</p>")
+							}if(d.result.invalid_email&&d.result.invalid_email!=""){
+							$(".email-error").append("<p style='color:red;'>"+d.result.invalid_email+"</p>")
+							}if(d.result.invalid_phone&&d.result.invalid_phone!=""){
+							$(".phone-error").append("<p style='color:red;'>"+d.result.invalid_phone+"</p>")
+							}if(d.result.invalid_message&&d.result.invalid_message!=""){
+							$(".message-error").append("<p style='color:red;'>"+d.result.invalid_message+"</p>")
+							}
+						}
+					}
+				},error:function(){}
+			})
+	});
+});
+
+</script>

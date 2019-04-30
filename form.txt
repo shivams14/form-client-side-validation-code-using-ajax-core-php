@@ -1,0 +1,30 @@
+<form method="POST" id="index_form" class="appointment-form">
+                    
+                        <div class="row">
+                            <div class="col-md-6">   
+                                <input type="text" id="name" placeholder="Your Name*" value="" name="name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="email" placeholder="Email*" value="" name="email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">   
+                                <input type="text" id="mobile" placeholder="Phone Number" value="" name="mobile">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="city" placeholder="City" value="" name="city">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea id="message" placeholder="Message*" name="message"></textarea>   
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button name="submit" id="submit" type="submit" class="thm-btn">Submit Now</button>
+                            </div>
+                        </div>
+                        
+                    </form>
